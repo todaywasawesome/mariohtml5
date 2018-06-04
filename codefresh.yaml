@@ -1,0 +1,21 @@
+version: '1.0'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: todaywasawesome/mariohtml5
+    working_directory: ./
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    dockerfile: Dockerfile
+  RunningDeployScript:
+    title: Running Deploy Script
+    type: deploy
+    kind: kubernetes
+    cluster: voting-app-demo@FirstKubernetes
+    namespace: marioapp
+    when:
+      branch:
+        only:
+          - master
+    service: html5mario
+
